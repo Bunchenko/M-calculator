@@ -1,8 +1,16 @@
 import React, { useState } from 'react';
-import { useDispatch } from 'react-redux';
-import { add, divide, multiply, subtract } from '../store/slices/calculator';
+import { useDispatch, useSelector } from 'react-redux';
+import {
+	add,
+	clear,
+	divide,
+	emptyCurrentOperand,
+	multiply,
+	subtract,
+} from '../store/slices/calculator';
 
-const Keypad = ({ handleClick, currentOperand, setCurrentOperand }) => {
+const Keypad = ({ handleButtonClick }) => {
+	const currentOperand = useSelector((state) => state.calculator.currentOperand);
 	const dispatch = useDispatch();
 
 	const [currentCommand, setCurrentCommand] = useState(null);
@@ -30,7 +38,7 @@ const Keypad = ({ handleClick, currentOperand, setCurrentOperand }) => {
 		<div>
 			{new Array(10).fill(null).map((_, i) => {
 				return (
-					<button key={i} onClick={() => handleClick(i)}>
+					<button key={i} onClick={() => handleButtonClick(i)}>
 						{i}
 					</button>
 				);
@@ -42,10 +50,15 @@ const Keypad = ({ handleClick, currentOperand, setCurrentOperand }) => {
 					<button
 						key={operation}
 						onClick={() => {
-							if (currentCommand && currentOperand) {
-								dispatch(currentCommand(+currentOperand));
-								setCurrentOperand('');
+							if (currentOperand) {
+								if (currentCommand) {
+									dispatch(currentCommand(+currentOperand));
+								} else {
+									dispatch(clear());
+									dispatch(add(+currentOperand));
+								}
 							}
+							dispatch(emptyCurrentOperand());
 							handleCommand(operation);
 						}}
 					>
@@ -56,8 +69,10 @@ const Keypad = ({ handleClick, currentOperand, setCurrentOperand }) => {
 
 			<button
 				onClick={() => {
+					if (!(currentCommand && currentOperand)) return;
+
 					dispatch(currentCommand(+currentOperand));
-					setCurrentOperand('');
+					dispatch(emptyCurrentOperand());
 					setCurrentCommand(null);
 				}}
 			>
