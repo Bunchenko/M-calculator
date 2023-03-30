@@ -5,7 +5,8 @@ export const calculatorSlice = createSlice({
 	name: 'calculator',
 	initialState: {
 		value: 0,
-		history: []
+		history: [],
+		currentOperand: ''
 	},
 	reducers: {
 		add: (state, action) => {
@@ -41,11 +42,18 @@ export const calculatorSlice = createSlice({
 			state.value = 0;
 			calculator.history = [];
 			state.history = [];
+			state.currentOperand = ''
 		},
 		undo: state => {
 			calculator.undo()
 			state.value = calculator.value
 			state.history.pop()
+		},
+		setCurrentOperand: (state, action) => {
+			state.currentOperand += action.payload
+		},
+		emptyCurrentOperand: state => {
+			state.currentOperand = ''
 		}
 	}
 })
@@ -58,7 +66,9 @@ export const {
 	undo,
 	clear,
 	clearHistory,
-	clearAll
+	clearAll,
+	setCurrentOperand,
+	emptyCurrentOperand
 } = calculatorSlice.actions
 
 export default calculatorSlice.reducer
