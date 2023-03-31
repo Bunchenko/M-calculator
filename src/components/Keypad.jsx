@@ -1,82 +1,79 @@
-import React, { useState } from 'react';
+import React from 'react';
 import { useDispatch, useSelector } from 'react-redux';
 import {
 	add,
 	divide,
 	emptyCurrentOperand,
 	multiply,
+	setCurrentOperand,
+	setCurrentOperation,
 	setValue,
 	subtract,
 } from '../store/slices/calculator';
 
-const Keypad = ({ handleButtonClick }) => {
+const Keypad = () => {
 	const currentOperand = useSelector((state) => state.calculator.currentOperand);
+	const currentOperation = useSelector((state) => state.calculator.currentOperation);
 	const dispatch = useDispatch();
 
-	const [currentCommand, setCurrentCommand] = useState(null);
-
-	const handleCommand = (operation) => {
-		switch (operation) {
+	const dispatchOperation = () => {
+		switch (currentOperation) {
 			case '+':
-				setCurrentCommand(() => add);
+				dispatch(add(+currentOperand));
 				break;
 			case '-':
-				setCurrentCommand(() => subtract);
+				dispatch(subtract(+currentOperand));
 				break;
 			case '*':
-				setCurrentCommand(() => multiply);
+				dispatch(multiply(+currentOperand));
 				break;
 			case '/':
-				setCurrentCommand(() => divide);
+				dispatch(divide(+currentOperand));
 				break;
 			default:
-				setCurrentCommand(null);
+				return;
 		}
+	};
+
+	const handleOperationClick = (operation) => {
+		if (currentOperand) {
+			if (currentOperation) {
+				dispatchOperation();
+			} else {
+				dispatch(setValue(+currentOperand));
+			}
+		}
+		dispatch(emptyCurrentOperand());
+		dispatch(setCurrentOperation(operation));
+	};
+
+	const handleEqualsClick = () => {
+		if (!(currentOperation && currentOperand)) return;
+
+		dispatchOperation();
+		dispatch(emptyCurrentOperand());
+		dispatch(setCurrentOperation(null));
 	};
 
 	return (
 		<div>
 			{new Array(10).fill(null).map((_, i) => {
 				return (
-					<button key={i} onClick={() => handleButtonClick(i)}>
+					<button key={i} onClick={() => dispatch(setCurrentOperand(i))}>
 						{i}
 					</button>
 				);
 			})}
 
 			{['+', '-', '*', '/'].map((operation) => {
-				console.log(operation);
 				return (
-					<button
-						key={operation}
-						onClick={() => {
-							if (currentOperand) {
-								if (currentCommand) {
-									dispatch(currentCommand(+currentOperand));
-								} else {
-									dispatch(setValue(+currentOperand));
-								}
-							}
-							dispatch(emptyCurrentOperand());
-							handleCommand(operation);
-						}}
-					>
+					<button key={operation} onClick={() => handleOperationClick(operation)}>
 						{operation}
 					</button>
 				);
 			})}
 
-			<button
-				onClick={() => {
-					if (!(currentCommand && currentOperand)) return;
-
-					dispatch(currentCommand(+currentOperand));
-					dispatch(emptyCurrentOperand());
-					setCurrentCommand(null);
-				}}
-			>
-				=
-			</button>
+			<button onClick={handleEqualsClick}>=</button>
 		</div>
 	);
 };
