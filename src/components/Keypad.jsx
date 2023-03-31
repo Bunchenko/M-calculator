@@ -2,10 +2,10 @@ import React, { useState } from 'react';
 import { useDispatch, useSelector } from 'react-redux';
 import {
 	add,
-	clear,
 	divide,
 	emptyCurrentOperand,
 	multiply,
+	setValue,
 	subtract,
 } from '../store/slices/calculator';
 
@@ -54,8 +54,7 @@ const Keypad = ({ handleButtonClick }) => {
 								if (currentCommand) {
 									dispatch(currentCommand(+currentOperand));
 								} else {
-									dispatch(clear());
-									dispatch(add(+currentOperand));
+									dispatch(setValue(+currentOperand));
 								}
 							}
 							dispatch(emptyCurrentOperand());
