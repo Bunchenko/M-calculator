@@ -38,6 +38,7 @@ export const calculatorSlice = createSlice({
 			calculator.value = 0;
 			state.value = 0;
 			state.currentOperand = ''
+			state.currentOperation = null
 		},
 		clearHistory: state => {
 			calculator.history = [];
@@ -49,6 +50,7 @@ export const calculatorSlice = createSlice({
 			calculator.history = [];
 			state.history = [];
 			state.currentOperand = ''
+			state.currentOperation = null
 		},
 		undo: state => {
 			calculator.undo()
