@@ -1,14 +1,10 @@
 import React from 'react';
 import { useDispatch, useSelector } from 'react-redux';
 import {
-	add,
-	divide,
-	emptyCurrentOperand,
-	multiply,
+	calculate,
 	setCurrentOperand,
 	setCurrentOperation,
 	setValue,
-	subtract,
 } from '../store/slices/calculator';
 
 const Keypad = () => {
@@ -16,63 +12,46 @@ const Keypad = () => {
 	const currentOperation = useSelector((state) => state.calculator.currentOperation);
 	const dispatch = useDispatch();
 
-	const dispatchOperation = () => {
-		switch (currentOperation) {
-			case '+':
-				dispatch(add(+currentOperand));
-				break;
-			case '-':
-				dispatch(subtract(+currentOperand));
-				break;
-			case '*':
-				dispatch(multiply(+currentOperand));
-				break;
-			case '/':
-				dispatch(divide(+currentOperand));
-				break;
-			default:
-				return;
-		}
-	};
-
 	const handleOperationClick = (operation) => {
 		if (currentOperand) {
 			if (currentOperation) {
-				dispatchOperation();
+				dispatch(calculate());
 			} else {
 				dispatch(setValue(+currentOperand));
 			}
 		}
-		dispatch(emptyCurrentOperand());
+		dispatch(setCurrentOperand(''));
 		dispatch(setCurrentOperation(operation));
 	};
 
 	const handleEqualsClick = () => {
 		if (!(currentOperation && currentOperand)) return;
 
-		dispatchOperation();
-		dispatch(emptyCurrentOperand());
+		dispatch(calculate());
+		dispatch(setCurrentOperand(''));
 		dispatch(setCurrentOperation(null));
 	};
 
+	const renderedDigitButtons = new Array(10).fill(null).map((_, i) => {
+		return (
+			<button key={i} onClick={() => dispatch(setCurrentOperand(i))}>
+				{i}
+			</button>
+		);
+	});
+
+	const renderedOperationButtons = ['+', '-', '*', '/'].map((operation) => {
+		return (
+			<button key={operation} onClick={() => handleOperationClick(operation)}>
+				{operation}
+			</button>
+		);
+	});
+
 	return (
 		<div>
-			{new Array(10).fill(null).map((_, i) => {
-				return (
-					<button key={i} onClick={() => dispatch(setCurrentOperand(i))}>
-						{i}
-					</button>
-				);
-			})}
-
-			{['+', '-', '*', '/'].map((operation) => {
-				return (
-					<button key={operation} onClick={() => handleOperationClick(operation)}>
-						{operation}
-					</button>
-				);
-			})}
-
+			{renderedDigitButtons}
+			{renderedOperationButtons}
 			<button onClick={handleEqualsClick}>=</button>
 		</div>
 	);

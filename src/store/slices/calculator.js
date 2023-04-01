@@ -14,24 +14,28 @@ export const calculatorSlice = createSlice({
 			calculator.value = action.payload;
 			state.value = calculator.value;
 		},
-		add: (state, action) => {
-			calculator.executeCommand(new AddCommand(action.payload))
-			state.history.push(`${state.value} + ${action.payload} = ${calculator.value}`)
-			state.value = calculator.value
-		},
-		subtract: (state, action) => {
-			calculator.executeCommand(new SubtractCommand(action.payload))
-			state.history.push(`${state.value} - ${action.payload} = ${calculator.value}`)
-			state.value = calculator.value
-		},
-		multiply: (state, action) => {
-			calculator.executeCommand(new MultiplyCommand(action.payload))
-			state.history.push(`${state.value} * ${action.payload} = ${calculator.value}`)
-			state.value = calculator.value
-		},
-		divide: (state, action) => {
-			calculator.executeCommand(new DivideCommand(action.payload))
-			state.history.push(`${state.value} / ${action.payload} = ${calculator.value}`)
+		calculate: state => {
+			let operation;
+			switch (state.currentOperation) {
+				case '+':
+					operation = new AddCommand(+state.currentOperand)
+					break;
+				case '-':
+					operation = new SubtractCommand(+state.currentOperand)
+					break;
+				case '*':
+					operation = new MultiplyCommand(+state.currentOperand)
+					break;
+				case '/':
+					operation = new DivideCommand(+state.currentOperand)
+					break;
+				default:
+					return;
+			}
+			calculator.executeCommand(operation);
+			state.history.push(
+				`${state.value} ${state.currentOperation} ${+state.currentOperand} = ${calculator.value}`
+			);
 			state.value = calculator.value
 		},
 		clear: state => {
@@ -56,32 +60,30 @@ export const calculatorSlice = createSlice({
 			calculator.undo()
 			state.value = calculator.value
 			state.history.pop()
+			state.currentOperation = null
 		},
 		setCurrentOperation: (state, action) => {
 			state.currentOperation = action.payload
 		},
 		setCurrentOperand: (state, action) => {
-			state.currentOperand += action.payload
-		},
-		emptyCurrentOperand: state => {
-			state.currentOperand = ''
+			if (!action.payload) {
+				state.currentOperand = ''
+			} else {
+				state.currentOperand += action.payload
+			}
 		}
 	}
 })
 
 export const {
 	setValue,
-	add,
-	subtract,
-	multiply,
-	divide,
+	calculate,
 	undo,
 	clear,
 	clearHistory,
 	clearAll,
 	setCurrentOperation,
-	setCurrentOperand,
-	emptyCurrentOperand
+	setCurrentOperand
 } = calculatorSlice.actions
 
 export default calculatorSlice.reducer
