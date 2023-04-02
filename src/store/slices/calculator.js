@@ -66,10 +66,23 @@ export const calculatorSlice = createSlice({
 			state.currentOperation = action.payload
 		},
 		setCurrentOperand: (state, action) => {
-			if (!action.payload) {
-				state.currentOperand = ''
-			} else {
-				state.currentOperand += action.payload
+			let value = action.payload;
+			if (typeof value === 'string' || typeof value === 'number') {
+				switch (value) {
+					case '':
+						state.currentOperand = '';
+						break;
+					case '.':
+						if (state.currentOperand.includes('.')) return;
+						if (state.currentOperand === '') {
+							state.currentOperand += '0.'
+						} else {
+							state.currentOperand += value
+						}
+						break;
+					default:
+						state.currentOperand += value
+				}
 			}
 		}
 	}

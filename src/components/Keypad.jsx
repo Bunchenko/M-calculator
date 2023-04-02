@@ -53,6 +53,7 @@ const Keypad = () => {
 			{renderedDigitButtons}
 			{renderedOperationButtons}
 			<button onClick={handleEqualsClick}>=</button>
+			<button onClick={() => dispatch(setCurrentOperand('.'))}>.</button>
 		</div>
 	);
 };
