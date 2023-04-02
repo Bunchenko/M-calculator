@@ -1,6 +1,6 @@
 class Calculator {
-	constructor(value) {
-		this.value = value;
+	constructor() {
+		this.value = 0;
 		this.history = [];
 	}
 
@@ -10,8 +10,10 @@ class Calculator {
 	}
 
 	undo() {
+		if (!this.history.length) return;
+
 		const command = this.history.pop();
-		command.undo(this.value)
+		this.value = command.undo(this.value)
 	}
 }
 
@@ -71,4 +73,5 @@ class DivideCommand {
 	}
 }
 
-export { Calculator, AddCommand, SubtractCommand, MultiplyCommand, DivideCommand }
+export default new Calculator();
+export { AddCommand, SubtractCommand, MultiplyCommand, DivideCommand }
