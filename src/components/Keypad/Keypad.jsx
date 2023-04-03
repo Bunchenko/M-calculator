@@ -5,7 +5,7 @@ import {
 	setCurrentOperand,
 	setCurrentOperation,
 	setValue,
-} from '../store/slices/calculator';
+} from '../../store/slices/calculator';
 
 const Keypad = () => {
 	const currentOperand = useSelector((state) => state.calculator.currentOperand);
