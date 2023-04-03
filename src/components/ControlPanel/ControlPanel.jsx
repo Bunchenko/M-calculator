@@ -1,6 +1,6 @@
 import React from 'react';
 import { useDispatch } from 'react-redux';
-import { clear, clearAll, clearHistory, undo } from '../store/slices/calculator';
+import { clear, clearAll, clearHistory, undo } from '../../store/slices/calculator';
 
 const ControlPanel = () => {
 	const dispatch = useDispatch();

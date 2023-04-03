@@ -7,7 +7,7 @@ const Display = () => {
 
 	return (
 		<div>
-			<h1>{currentCalculatorValue}</h1>
+			<input type='text' value={currentCalculatorValue} disabled />
 			<input type='text' value={currentOperand} disabled />
 		</div>
 	);
