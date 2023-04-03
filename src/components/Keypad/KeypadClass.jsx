@@ -6,6 +6,7 @@ import {
 	setValue,
 } from '../../store/slices/calculator';
 import { connect } from 'react-redux';
+import PropTypes from 'prop-types';
 
 class KeypadClass extends Component {
 	renderedDigitButtons = new Array(10).fill(null).map((_, i) => {
@@ -62,5 +63,14 @@ const mapStateToProps = (state) => ({
 });
 
 const mapDispatchToProps = { calculate, setCurrentOperand, setCurrentOperation, setValue };
+
+KeypadClass.propTypes = {
+	currentOperand: PropTypes.string,
+	currentOperation: PropTypes.string,
+	calculate: PropTypes.func,
+	setCurrentOperand: PropTypes.func,
+	setCurrentOperation: PropTypes.func,
+	setValue: PropTypes.func,
+};
 
 export default connect(mapStateToProps, mapDispatchToProps)(KeypadClass);

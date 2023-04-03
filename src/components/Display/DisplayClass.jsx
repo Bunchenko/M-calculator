@@ -1,5 +1,6 @@
 import React, { Component } from 'react';
 import { connect } from 'react-redux';
+import PropTypes from 'prop-types';
 
 class DisplayClass extends Component {
 	render() {
@@ -16,5 +17,10 @@ const mapStateToProps = (state) => ({
 	currentValue: state.calculator.value,
 	currentOperand: state.calculator.currentOperand,
 });
+
+DisplayClass.propTypes = {
+	currentValue: PropTypes.number,
+	currentOperand: PropTypes.string,
+};
 
 export default connect(mapStateToProps)(DisplayClass);

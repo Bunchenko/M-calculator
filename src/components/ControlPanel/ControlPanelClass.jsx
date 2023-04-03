@@ -2,6 +2,7 @@ import React, { Component } from 'react';
 import { clearAll, clearHistory, undo } from '../../store/slices/calculator';
 import { clear } from '@testing-library/user-event/dist/clear';
 import { connect } from 'react-redux';
+import PropTypes from 'prop-types';
 
 class ControlPanelClass extends Component {
 	render() {
@@ -17,5 +18,12 @@ class ControlPanelClass extends Component {
 }
 
 const mapDispatchToProps = { undo, clearHistory, clearAll, clear };
+
+ControlPanelClass.propTypes = {
+	undo: PropTypes.func,
+	clearHistory: PropTypes.func,
+	clearAll: PropTypes.func,
+	clear: PropTypes.func,
+};
 
 export default connect(null, mapDispatchToProps)(ControlPanelClass);

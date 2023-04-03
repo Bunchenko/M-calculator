@@ -1,5 +1,6 @@
 import React, { Component } from 'react';
 import { connect } from 'react-redux';
+import PropTypes from 'prop-types';
 
 class HistoryClass extends Component {
 	render() {
@@ -19,5 +20,9 @@ class HistoryClass extends Component {
 const mapStateToProps = (state) => ({
 	history: state.calculator.history,
 });
+
+HistoryClass.propTypes = {
+	history: PropTypes.arrayOf(PropTypes.string),
+};
 
 export default connect(mapStateToProps)(HistoryClass);
