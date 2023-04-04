@@ -3,14 +3,17 @@ import History from '../History/History';
 
 import Display from '../Display/Display';
 import ControlPanel from '../ControlPanel/ControlPanel';
+import ErrorBoundary from '../ErrorBoundary';
 
 function Calculator() {
 	return (
-		<div className='Calculator'>
-			<History />
-			<ControlPanel />
-			<Display />
-			<Keypad />
+		<div>
+			<ErrorBoundary>
+				<History />
+				<ControlPanel />
+				<Display />
+				<Keypad />
+			</ErrorBoundary>
 		</div>
 	);
 }
