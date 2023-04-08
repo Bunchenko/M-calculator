@@ -1,20 +1,23 @@
 import React from 'react';
 import { useSelector } from 'react-redux';
 import CalculationError from '../../services/calculationError';
+import { DisplayContainer, Input } from './styled';
 
 const Display = () => {
 	const currentCalculatorValue = useSelector((state) => state.calculator.value);
 	const currentOperand = useSelector((state) => state.calculator.currentOperand);
+	const currentOperation = useSelector((state) => state.calculator.currentOperation);
 
 	if (isNaN(currentCalculatorValue) || currentCalculatorValue === Infinity) {
 		throw new CalculationError('Invalid operation!');
 	}
+	const operation = currentOperation || '';
 
 	return (
-		<div>
-			<input type='text' value={currentCalculatorValue} disabled />
-			<input type='text' value={currentOperand} disabled />
-		</div>
+		<DisplayContainer>
+			<Input type='text' value={`${currentCalculatorValue} ${operation} `} disabled />
+			<Input type='text' value={`${currentOperand}  `} disabled />
+		</DisplayContainer>
 	);
 };
 

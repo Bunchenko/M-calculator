@@ -1,18 +1,58 @@
-import React, { Component } from 'react';
+import React, { Component, createRef } from 'react';
 import { connect } from 'react-redux';
 import PropTypes from 'prop-types';
+import { Dropdown, HistoryList, HistoryOption, HistoryPanel } from './styled';
+import ChevronDown from '../svg/ChevronDown';
 
 class HistoryClass extends Component {
+	constructor(props) {
+		super(props);
+		this.state = {
+			isOpen: false,
+		};
+		this.divEl = createRef();
+		this.documentHandler = this.documentHandler.bind(this);
+	}
+
+	documentHandler = (e) => {
+		if (!this.divEl.current) return;
+		if (!this.divEl.current.contains(e.target)) {
+			this.setState({ isOpen: false });
+		}
+	};
+
+	componentDidMount() {
+		document.addEventListener('click', this.documentHandler, true);
+	}
+
+	componentWillUnmount() {
+		document.removeEventListener('click', this.documentHandler, true);
+	}
+
+	handleClick = () => {
+		this.setState({ isOpen: !this.state.isOpen });
+	};
+
 	render() {
 		return (
-			<div>
-				<h1>History</h1>
-				<ul>
-					{this.props.history.map((calculation, i) => {
-						return <li key={i}>{calculation}</li>;
-					})}
-				</ul>
-			</div>
+			<Dropdown ref={this.divEl}>
+				<HistoryPanel onClick={() => this.handleClick()}>
+					History <ChevronDown />
+				</HistoryPanel>
+				{this.state.isOpen && (
+					<HistoryList>
+						{this.props.history.length === 0
+							? 'History is empty!'
+							: this.props.history.map((calculation, i) => {
+									return (
+										<HistoryOption onClick={() => this.handleClick()} key={i}>
+											{calculation}
+										</HistoryOption>
+									);
+							  })}
+					</HistoryList>
+				)}
+			</Dropdown>
 		);
 	}
 }

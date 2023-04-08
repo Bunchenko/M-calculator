@@ -3,19 +3,20 @@ import HistoryClass from '../History/HistoryClass';
 import ControlPanelClass from '../ControlPanel/ControlPanelClass';
 import DisplayClass from '../Display/DisplayClass';
 import KeypadClass from '../Keypad/KeypadClass';
-import ErrorBoundary from '../ErrorBoundary';
+import ErrorBoundary from '../ErrorBoundary/ErrorBoundary';
+import { CalculatorWrapper } from './styled';
 
 export default class CalculatorClass extends Component {
 	render() {
 		return (
-			<div>
+			<CalculatorWrapper>
 				<ErrorBoundary>
 					<HistoryClass />
 					<ControlPanelClass />
 					<DisplayClass />
 					<KeypadClass />
 				</ErrorBoundary>
-			</div>
+			</CalculatorWrapper>
 		);
 	}
 }

@@ -1,4 +1,5 @@
 import React, { Component } from 'react';
+import { ErrorMessage } from './styled';
 
 export default class ErrorBoundary extends Component {
 	constructor(props) {
@@ -20,10 +21,10 @@ export default class ErrorBoundary extends Component {
 
 	render() {
 		if (this.state.hasError && this.state.isCalculationError) {
-			return <h1>Please, correct your expression and restart the app!</h1>;
+			return <ErrorMessage>Please, restart the app and correct your expression!</ErrorMessage>;
 		}
 		if (this.state.hasError) {
-			return <h1>Some error occurred, please, restart the app!</h1>;
+			return <ErrorMessage>Some error occurred, please, restart the app!</ErrorMessage>;
 		}
 
 		return this.props.children;

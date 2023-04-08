@@ -7,21 +7,15 @@ import {
 } from '../../store/slices/calculator';
 import { connect } from 'react-redux';
 import PropTypes from 'prop-types';
+import { KeypadButton, KeypadContainer } from './styled';
 
 class KeypadClass extends Component {
 	renderedDigitButtons = new Array(10).fill(null).map((_, i) => {
+		let digit = Math.abs(i - 9);
 		return (
-			<button key={i} onClick={() => this.props.setCurrentOperand(i)}>
-				{i}
-			</button>
-		);
-	});
-
-	renderedOperationButtons = ['+', '-', '*', '/'].map((operation) => {
-		return (
-			<button key={operation} onClick={() => this.handleOperationClick(operation)}>
-				{operation}
-			</button>
+			<KeypadButton key={digit} onClick={() => this.props.setCurrentOperand(digit)}>
+				{digit}
+			</KeypadButton>
 		);
 	});
 
@@ -47,12 +41,27 @@ class KeypadClass extends Component {
 
 	render() {
 		return (
-			<div>
+			<KeypadContainer>
 				{this.renderedDigitButtons}
-				{this.renderedOperationButtons}
-				<button onClick={() => this.handleEqualsClick()}>=</button>
-				<button onClick={() => this.props.setCurrentOperand('.')}>.</button>
-			</div>
+				{['+', '-', '*', '/'].map((operation) => {
+					return (
+						<KeypadButton
+							functional
+							isCurrent={operation === this.props.currentOperation}
+							key={operation}
+							onClick={() => this.handleOperationClick(operation)}
+						>
+							{operation}
+						</KeypadButton>
+					);
+				})}
+				<KeypadButton functional onClick={() => this.handleEqualsClick()}>
+					=
+				</KeypadButton>
+				<KeypadButton functional onClick={() => this.props.setCurrentOperand('.')}>
+					.
+				</KeypadButton>
+			</KeypadContainer>
 		);
 	}
 }
