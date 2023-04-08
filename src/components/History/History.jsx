@@ -1,18 +1,51 @@
-import React from 'react';
+import React, { useEffect, useRef, useState } from 'react';
 import { useSelector } from 'react-redux';
+import { Dropdown, HistoryList, HistoryOption, HistoryPanel } from './styled';
+import ChevronDown from '../svg/ChevronDown';
 
 const History = () => {
 	const history = useSelector((state) => state.calculator.history);
 
+	const [isOpen, setIsOpen] = useState(false);
+	const divEl = useRef();
+
+	useEffect(() => {
+		const handler = (e) => {
+			if (!divEl.current) return;
+			if (!divEl.current.contains(e.target)) {
+				setIsOpen(false);
+			}
+		};
+
+		document.addEventListener('click', handler, true);
+
+		return () => {
+			document.removeEventListener('click', handler, true);
+		};
+	}, []);
+
+	const handleClick = () => {
+		setIsOpen(!isOpen);
+	};
+
+	const renderedHistory =
+		history.length === 0
+			? 'History is empty!'
+			: history.map((calculation, i) => {
+					return (
+						<HistoryOption onClick={handleClick} key={i}>
+							{calculation}
+						</HistoryOption>
+					);
+			  });
+
 	return (
-		<div>
-			<h1>History</h1>
-			<ul>
-				{history.map((calculation, i) => {
-					return <li key={i}>{calculation}</li>;
-				})}
-			</ul>
-		</div>
+		<Dropdown ref={divEl}>
+			<HistoryPanel onClick={handleClick}>
+				History <ChevronDown />
+			</HistoryPanel>
+			{isOpen && <HistoryList>{renderedHistory}</HistoryList>}
+		</Dropdown>
 	);
 };
 

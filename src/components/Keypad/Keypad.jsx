@@ -6,6 +6,7 @@ import {
 	setCurrentOperation,
 	setValue,
 } from '../../store/slices/calculator';
+import { KeypadButton, KeypadContainer } from './styled';
 
 const Keypad = () => {
 	const currentOperand = useSelector((state) => state.calculator.currentOperand);
@@ -33,28 +34,38 @@ const Keypad = () => {
 	};
 
 	const renderedDigitButtons = new Array(10).fill(null).map((_, i) => {
+		let digit = Math.abs(i - 9);
 		return (
-			<button key={i} onClick={() => dispatch(setCurrentOperand(i))}>
-				{i}
-			</button>
+			<KeypadButton key={digit} onClick={() => dispatch(setCurrentOperand(digit))}>
+				{digit}
+			</KeypadButton>
 		);
 	});
 
 	const renderedOperationButtons = ['+', '-', '*', '/'].map((operation) => {
 		return (
-			<button key={operation} onClick={() => handleOperationClick(operation)}>
+			<KeypadButton
+				functional
+				isCurrent={operation === currentOperation}
+				key={operation}
+				onClick={() => handleOperationClick(operation)}
+			>
 				{operation}
-			</button>
+			</KeypadButton>
 		);
 	});
 
 	return (
-		<div>
+		<KeypadContainer>
 			{renderedDigitButtons}
 			{renderedOperationButtons}
-			<button onClick={handleEqualsClick}>=</button>
-			<button onClick={() => dispatch(setCurrentOperand('.'))}>.</button>
-		</div>
+			<KeypadButton functional onClick={handleEqualsClick}>
+				=
+			</KeypadButton>
+			<KeypadButton functional onClick={() => dispatch(setCurrentOperand('.'))}>
+				.
+			</KeypadButton>
+		</KeypadContainer>
 	);
 };
 

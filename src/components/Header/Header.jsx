@@ -1,22 +1,30 @@
-import React from 'react';
-import { NavLink } from 'react-router-dom';
+import React, { useContext } from 'react';
+import { HeaderStyled, AppName, NavLinkStyled, UList } from './styled.js';
+import Button from '../Button/Button.js';
+import CustomThemeContext from '../../context/theme';
 
 const Header = () => {
+	const { toggleTheme } = useContext(CustomThemeContext);
+
 	return (
-		<header>
-			<span>Calculator App</span>
+		<HeaderStyled>
+			<AppName>Calculator</AppName>
 			<nav>
-				<ul>
+				<UList>
 					<li>
-						<NavLink to='/functional'>FC</NavLink>
+						<NavLinkStyled to='/functional'>
+							<Button>FC</Button>
+						</NavLinkStyled>
 					</li>
 					<li>
-						<NavLink to='/class'>CC</NavLink>
+						<NavLinkStyled to='/class'>
+							<Button>CC</Button>
+						</NavLinkStyled>
 					</li>
-				</ul>
+				</UList>
 			</nav>
-			<span>Theme changer</span>
-		</header>
+			<Button onClick={toggleTheme}>Change theme</Button>
+		</HeaderStyled>
 	);
 };
 

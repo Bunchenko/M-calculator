@@ -3,18 +3,19 @@ import History from '../History/History';
 
 import Display from '../Display/Display';
 import ControlPanel from '../ControlPanel/ControlPanel';
-import ErrorBoundary from '../ErrorBoundary';
+import ErrorBoundary from '../ErrorBoundary/ErrorBoundary';
+import { CalculatorWrapper } from './styled';
 
 function Calculator() {
 	return (
-		<div>
+		<CalculatorWrapper>
 			<ErrorBoundary>
 				<History />
 				<ControlPanel />
 				<Display />
 				<Keypad />
 			</ErrorBoundary>
-		</div>
+		</CalculatorWrapper>
 	);
 }
 

@@ -3,9 +3,9 @@ import CalculatorClass from '../components/Calculator/CalculatorClass';
 
 const CalculatorClassPage = () => {
 	return (
-		<div>
+		<>
 			<CalculatorClass />
-		</div>
+		</>
 	);
 };
 

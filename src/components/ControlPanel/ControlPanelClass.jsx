@@ -1,17 +1,17 @@
 import React, { Component } from 'react';
-import { clearAll, clearHistory, undo } from '../../store/slices/calculator';
-import { clear } from '@testing-library/user-event/dist/clear';
+import { clearAll, clearHistory, undo, clear } from '../../store/slices/calculator';
 import { connect } from 'react-redux';
 import PropTypes from 'prop-types';
+import Button from '../Button/Button';
 
 class ControlPanelClass extends Component {
 	render() {
 		return (
 			<div>
-				<button onClick={() => this.props.undo()}>Undo</button>
-				<button onClick={() => this.props.clear()}>Clear</button>
-				<button onClick={() => this.props.clearHistory()}>Clear history</button>
-				<button onClick={() => this.props.clearAll()}>Clear All</button>
+				<Button onClick={() => this.props.undo()}>Undo</Button>
+				<Button onClick={() => this.props.clear()}>Clear</Button>
+				<Button onClick={() => this.props.clearHistory()}>Clear history</Button>
+				<Button onClick={() => this.props.clearAll()}>Clear All</Button>
 			</div>
 		);
 	}
