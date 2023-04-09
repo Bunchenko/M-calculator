@@ -15,8 +15,13 @@ const Display = () => {
 
 	return (
 		<DisplayContainer>
-			<Input type='text' value={`${currentCalculatorValue} ${operation} `} disabled />
-			<Input type='text' value={`${currentOperand}  `} disabled />
+			<Input
+				type='text'
+				value={`${currentCalculatorValue} ${operation} `}
+				disabled
+				data-cy='display-result'
+			/>
+			<Input type='text' value={`${currentOperand}  `} disabled data-cy='display-current-operand' />
 		</DisplayContainer>
 	);
 };

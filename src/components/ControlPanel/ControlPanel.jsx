@@ -8,10 +8,18 @@ const ControlPanel = () => {
 
 	return (
 		<div>
-			<Button onClick={() => dispatch(undo())}>Undo</Button>
-			<Button onClick={() => dispatch(clear())}>Clear</Button>
-			<Button onClick={() => dispatch(clearHistory())}>Clear history</Button>
-			<Button onClick={() => dispatch(clearAll())}>Clear All</Button>
+			<Button onClick={() => dispatch(undo())} data-cy='undo'>
+				Undo
+			</Button>
+			<Button onClick={() => dispatch(clear())} data-cy='clear'>
+				Clear
+			</Button>
+			<Button onClick={() => dispatch(clearHistory())} data-cy='clear-history'>
+				Clear history
+			</Button>
+			<Button onClick={() => dispatch(clearAll())} data-cy='clear-all'>
+				Clear All
+			</Button>
 		</div>
 	);
 };

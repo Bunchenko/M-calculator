@@ -41,10 +41,10 @@ const History = () => {
 
 	return (
 		<Dropdown ref={divEl}>
-			<HistoryPanel onClick={handleClick}>
+			<HistoryPanel onClick={handleClick} data-cy='history-panel'>
 				History <ChevronDown />
 			</HistoryPanel>
-			{isOpen && <HistoryList>{renderedHistory}</HistoryList>}
+			{isOpen && <HistoryList data-cy='history-list'>{renderedHistory}</HistoryList>}
 		</Dropdown>
 	);
 };
