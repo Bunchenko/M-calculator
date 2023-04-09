@@ -36,7 +36,11 @@ const Keypad = () => {
 	const renderedDigitButtons = new Array(10).fill(null).map((_, i) => {
 		let digit = Math.abs(i - 9);
 		return (
-			<KeypadButton key={digit} onClick={() => dispatch(setCurrentOperand(digit))}>
+			<KeypadButton
+				key={digit}
+				onClick={() => dispatch(setCurrentOperand(digit))}
+				data-cy={`digit-${digit}`}
+			>
 				{digit}
 			</KeypadButton>
 		);
@@ -49,6 +53,7 @@ const Keypad = () => {
 				isCurrent={operation === currentOperation}
 				key={operation}
 				onClick={() => handleOperationClick(operation)}
+				data-cy={`operation-${operation}`}
 			>
 				{operation}
 			</KeypadButton>
@@ -59,10 +64,10 @@ const Keypad = () => {
 		<KeypadContainer>
 			{renderedDigitButtons}
 			{renderedOperationButtons}
-			<KeypadButton functional onClick={handleEqualsClick}>
+			<KeypadButton functional onClick={handleEqualsClick} data-cy='equals'>
 				=
 			</KeypadButton>
-			<KeypadButton functional onClick={() => dispatch(setCurrentOperand('.'))}>
+			<KeypadButton functional onClick={() => dispatch(setCurrentOperand('.'))} data-cy='point'>
 				.
 			</KeypadButton>
 		</KeypadContainer>

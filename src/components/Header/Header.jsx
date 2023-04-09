@@ -8,22 +8,24 @@ const Header = () => {
 
 	return (
 		<HeaderStyled>
-			<AppName>Calculator</AppName>
+			<AppName data-cy='app-name'>Calculator</AppName>
 			<nav>
 				<UList>
 					<li>
-						<NavLinkStyled to='/functional'>
+						<NavLinkStyled to='/functional' data-cy='navlink-FC'>
 							<Button>FC</Button>
 						</NavLinkStyled>
 					</li>
 					<li>
-						<NavLinkStyled to='/class'>
+						<NavLinkStyled to='/class' data-cy='navlink-CC'>
 							<Button>CC</Button>
 						</NavLinkStyled>
 					</li>
 				</UList>
 			</nav>
-			<Button onClick={toggleTheme}>Change theme</Button>
+			<Button onClick={toggleTheme} data-cy='theme'>
+				Change theme
+			</Button>
 		</HeaderStyled>
 	);
 };
