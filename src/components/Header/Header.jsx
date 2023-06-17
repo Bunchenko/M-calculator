@@ -1,5 +1,5 @@
 import React, { useContext } from 'react';
-import { HeaderStyled, AppName, NavLinkStyled, UList } from './styled.js';
+import { HeaderStyled, AppName, NavLinkStyled, NavigationList } from './styled.js';
 import Button from '../Button/Button.js';
 import CustomThemeContext from '../../context/theme';
 
@@ -10,7 +10,7 @@ const Header = () => {
 		<HeaderStyled>
 			<AppName data-cy='app-name'>Calculator</AppName>
 			<nav>
-				<UList>
+				<NavigationList>
 					<li>
 						<NavLinkStyled to='/functional' data-cy='navlink-FC'>
 							<Button>FC</Button>
@@ -21,7 +21,7 @@ const Header = () => {
 							<Button>CC</Button>
 						</NavLinkStyled>
 					</li>
-				</UList>
+				</NavigationList>
 			</nav>
 			<Button onClick={toggleTheme} data-cy='theme'>
 				Change theme

@@ -16,7 +16,7 @@ export const AppName = styled.span`
 	font-weight: bold;
 `
 
-export const UList = styled.ul`
+export const NavigationList = styled.ul`
 	list-style: none;
 	display: flex;
 `

@@ -7,12 +7,12 @@ const History = () => {
 	const history = useSelector((state) => state.calculator.history);
 
 	const [isOpen, setIsOpen] = useState(false);
-	const divEl = useRef();
+	const dropdown = useRef();
 
 	useEffect(() => {
 		const handler = (e) => {
-			if (!divEl.current) return;
-			if (!divEl.current.contains(e.target)) {
+			if (!dropdown.current) return;
+			if (!dropdown.current.contains(e.target)) {
 				setIsOpen(false);
 			}
 		};
@@ -40,7 +40,7 @@ const History = () => {
 			  });
 
 	return (
-		<Dropdown ref={divEl}>
+		<Dropdown ref={dropdown}>
 			<HistoryPanel onClick={handleClick} data-cy='history-panel'>
 				History <ChevronDown />
 			</HistoryPanel>

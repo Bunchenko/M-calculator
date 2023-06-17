@@ -10,13 +10,13 @@ class HistoryClass extends Component {
 		this.state = {
 			isOpen: false,
 		};
-		this.divEl = createRef();
+		this.dropdown = createRef();
 		this.documentHandler = this.documentHandler.bind(this);
 	}
 
 	documentHandler = (e) => {
-		if (!this.divEl.current) return;
-		if (!this.divEl.current.contains(e.target)) {
+		if (!this.dropdown.current) return;
+		if (!this.dropdown.current.contains(e.target)) {
 			this.setState({ isOpen: false });
 		}
 	};
@@ -35,7 +35,7 @@ class HistoryClass extends Component {
 
 	render() {
 		return (
-			<Dropdown ref={this.divEl}>
+			<Dropdown ref={this.dropdown}>
 				<HistoryPanel onClick={() => this.handleClick()}>
 					History <ChevronDown />
 				</HistoryPanel>
