@@ -3,39 +3,30 @@ import ErrorPage from "./pages/ErrorPage";
 import Header from "./components/Header/Header";
 import CalculatorPage from "./pages/CalculatorPage";
 import CalculatorClassPage from "./pages/CalculatorClassPage";
-import { ThemeProvider, createGlobalStyle } from "styled-components";
+import { ThemeProvider } from "styled-components";
 import { useContext } from "react";
 import CustomThemeContext from "./context/theme";
+import Global, { darkTheme, lightTheme } from "./globalStyles";
+import routes from "./constants/routes";
 
-const Global = createGlobalStyle`
-	* {
-		margin: 0;
-		padding: 0;
-		box-sizing: border-box;
-	}
-	
-	#root {
-		height: 100vh;
-		background-color: ${(props) => props.theme.background.root};
-		transition: background 0.2s linear;
-	}
-`;
-
-const lightTheme = {
-  background: {
-    activeLink: '#fff',
-    root: '#fff',
+const routeComponents = [
+  {
+    path: routes.home,
+    element: <CalculatorPage />
   },
-  color: '#000',
-};
-
-const darkTheme = {
-  background: {
-    activeLink: 'orange',
-    root: '#292c35',
+  {
+    path: routes.functionalComponents,
+    element: <CalculatorPage />
   },
-  color: '#fff',
-};
+  {
+    path: routes.classComponents,
+    element: <CalculatorClassPage />
+  },
+  {
+    path: routes.error,
+    element: <ErrorPage />
+  }
+]
 
 function App() {
   const { theme } = useContext(CustomThemeContext)
@@ -46,10 +37,9 @@ function App() {
       <BrowserRouter>
         <Header />
         <Routes>
-          <Route path="/" element={<CalculatorPage />} />
-          <Route path="functional" element={<CalculatorPage />} />
-          <Route path="class" element={<CalculatorClassPage />} />
-          <Route path="*" element={<ErrorPage />} />
+          {routeComponents.map(({ path, element }) => {
+            return <Route key={path} path={path} element={element} />
+          })}
         </Routes>
       </BrowserRouter>
     </ThemeProvider>
