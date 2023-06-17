@@ -13,8 +13,18 @@ class DisplayClass extends Component {
 
 		return (
 			<DisplayContainer>
-				<Input type='text' value={`${this.props.currentValue} ${operation} `} disabled />
-				<Input type='text' value={`${this.props.currentOperand}  `} disabled />
+				<Input
+					name='result'
+					type='text'
+					value={`${this.props.currentValue} ${operation} `}
+					disabled
+				/>
+				<Input
+					name='current operand'
+					type='text'
+					value={`${this.props.currentOperand}  `}
+					disabled
+				/>
 			</DisplayContainer>
 		);
 	}

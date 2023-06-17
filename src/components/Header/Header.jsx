@@ -6,21 +6,33 @@ import CustomThemeContext from '../../context/theme';
 const Header = () => {
 	const { toggleTheme } = useContext(CustomThemeContext);
 
+	const navigationLinks = [
+		{
+			to: '/functional',
+			dataCy: 'navlink-FC',
+			buttonText: 'FC',
+		},
+		{
+			to: '/class',
+			dataCy: 'navlink-CC',
+			buttonText: 'CC',
+		},
+	];
+
 	return (
 		<HeaderStyled>
 			<AppName data-cy='app-name'>Calculator</AppName>
 			<nav>
 				<NavigationList>
-					<li>
-						<NavLinkStyled to='/functional' data-cy='navlink-FC'>
-							<Button>FC</Button>
-						</NavLinkStyled>
-					</li>
-					<li>
-						<NavLinkStyled to='/class' data-cy='navlink-CC'>
-							<Button>CC</Button>
-						</NavLinkStyled>
-					</li>
+					{navigationLinks.map(({ to, dataCy, buttonText }) => {
+						return (
+							<li key={to}>
+								<NavLinkStyled to={to} data-cy={dataCy}>
+									<Button>{buttonText}</Button>
+								</NavLinkStyled>
+							</li>
+						);
+					})}
 				</NavigationList>
 			</nav>
 			<Button onClick={toggleTheme} data-cy='theme'>
