@@ -1,11 +1,13 @@
 import { createSlice } from '@reduxjs/toolkit';
-import calculator, { AddCommand, DivideCommand, MultiplyCommand, SubtractCommand } from '../../services/calculator';
+import calculator from '../../services/calculator';
+import chooseOperation from '../../utils/chooseOperation';
+import formatValue from '../../utils/formatValue';
+import { calculate, clearAll, undo } from '../actions';
 
 export const calculatorSlice = createSlice({
 	name: 'calculator',
 	initialState: {
 		value: 0,
-		history: [],
 		currentOperand: '',
 		currentOperation: null
 	},
@@ -14,52 +16,10 @@ export const calculatorSlice = createSlice({
 			calculator.value = action.payload;
 			state.value = calculator.value;
 		},
-		calculate: state => {
-			let operation;
-			switch (state.currentOperation) {
-				case '+':
-					operation = new AddCommand(+state.currentOperand)
-					break;
-				case '-':
-					operation = new SubtractCommand(+state.currentOperand)
-					break;
-				case '*':
-					operation = new MultiplyCommand(+state.currentOperand)
-					break;
-				case '/':
-					operation = new DivideCommand(+state.currentOperand)
-					break;
-				default:
-					return;
-			}
-			calculator.executeCommand(operation);
-			state.history.push(
-				`${state.value} ${state.currentOperation} ${+state.currentOperand} = ${calculator.value}`
-			);
-			state.value = calculator.value
-		},
 		clear: state => {
 			calculator.value = 0;
 			state.value = 0;
 			state.currentOperand = ''
-			state.currentOperation = null
-		},
-		clearHistory: state => {
-			calculator.history = [];
-			state.history = [];
-		},
-		clearAll: state => {
-			calculator.value = 0;
-			state.value = 0;
-			calculator.history = [];
-			state.history = [];
-			state.currentOperand = ''
-			state.currentOperation = null
-		},
-		undo: state => {
-			calculator.undo()
-			state.value = calculator.value
-			state.history.pop()
 			state.currentOperation = null
 		},
 		setCurrentOperation: (state, action) => {
@@ -67,34 +27,41 @@ export const calculatorSlice = createSlice({
 		},
 		setCurrentOperand: (state, action) => {
 			let value = action.payload;
-			if (typeof value === 'string' || typeof value === 'number') {
-				switch (value) {
-					case '':
-						state.currentOperand = '';
-						break;
-					case '.':
-						if (state.currentOperand.includes('.')) return;
-						if (state.currentOperand === '') {
-							state.currentOperand += '0.'
-						} else {
-							state.currentOperand += value
-						}
-						break;
-					default:
-						state.currentOperand += value
-				}
+			if (value === '') {
+				//empty string as a passed value is a sign to empty current operand
+				state.currentOperand = '';
+			} else if (typeof value === 'string' || typeof value === 'number') {
+				state.currentOperand += formatValue(value, state.currentOperand);
 			}
 		}
+	},
+	extraReducers(builder) {
+		builder
+			.addCase(calculate, state => {
+				let operation = chooseOperation(state.currentOperation, state.currentOperand);
+				calculator.executeCommand(operation);
+				//FIX:
+				//this reducer can be executed slower than calculate
+				//in history reducer => calculator.value there will be incorrect
+				state.value = calculator.value
+			})
+			.addCase(clearAll, state => {
+				calculator.value = 0;
+				state.value = 0;
+				state.currentOperand = ''
+				state.currentOperation = null
+			})
+			.addCase(undo, state => {
+				calculator.undo()
+				state.value = calculator.value
+				state.currentOperation = null
+			})
 	}
 })
 
 export const {
 	setValue,
-	calculate,
-	undo,
 	clear,
-	clearHistory,
-	clearAll,
 	setCurrentOperation,
 	setCurrentOperand
 } = calculatorSlice.actions

@@ -1,5 +1,5 @@
 import React, { Component } from 'react';
-import { clearAll, clearHistory, undo, clear } from '../../store/slices/calculator';
+import { clearAll, clearHistory, undo, clear } from '../../store';
 import { connect } from 'react-redux';
 import PropTypes from 'prop-types';
 import Button from '../Button/Button';

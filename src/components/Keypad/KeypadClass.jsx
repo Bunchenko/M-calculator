@@ -1,10 +1,5 @@
 import React, { Component } from 'react';
-import {
-	calculate,
-	setCurrentOperand,
-	setCurrentOperation,
-	setValue,
-} from '../../store/slices/calculator';
+import { calculate, setCurrentOperand, setCurrentOperation, setValue } from '../../store/';
 import { connect } from 'react-redux';
 import PropTypes from 'prop-types';
 import { KeypadButton, KeypadContainer } from './styled';
@@ -22,7 +17,11 @@ class KeypadClass extends Component {
 	handleOperationClick = (operation) => {
 		if (this.props.currentOperand) {
 			if (this.props.currentOperation) {
-				this.props.calculate();
+				this.props.calculate({
+					currentValue: this.props.currentCalculatorValue,
+					currentOperation: this.props.currentOperation,
+					currentOperand: this.props.currentOperand,
+				});
 			} else {
 				this.props.setValue(+this.props.currentOperand);
 			}
@@ -34,7 +33,11 @@ class KeypadClass extends Component {
 	handleEqualsClick = () => {
 		if (!(this.props.currentOperation && this.props.currentOperand)) return;
 
-		this.props.calculate();
+		this.props.calculate({
+			currentValue: this.props.currentCalculatorValue,
+			currentOperation: this.props.currentOperation,
+			currentOperand: this.props.currentOperand,
+		});
 		this.props.setCurrentOperand('');
 		this.props.setCurrentOperation(null);
 	};
@@ -69,6 +72,7 @@ class KeypadClass extends Component {
 const mapStateToProps = (state) => ({
 	currentOperand: state.calculator.currentOperand,
 	currentOperation: state.calculator.currentOperation,
+	currentCalculatorValue: state.calculator.value,
 });
 
 const mapDispatchToProps = { calculate, setCurrentOperand, setCurrentOperation, setValue };
@@ -76,6 +80,7 @@ const mapDispatchToProps = { calculate, setCurrentOperand, setCurrentOperation, 
 KeypadClass.propTypes = {
 	currentOperand: PropTypes.string,
 	currentOperation: PropTypes.string,
+	currentCalculatorValue: PropTypes.number,
 	calculate: PropTypes.func,
 	setCurrentOperand: PropTypes.func,
 	setCurrentOperation: PropTypes.func,

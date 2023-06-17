@@ -1,14 +1,10 @@
 import React from 'react';
 import { useDispatch, useSelector } from 'react-redux';
-import {
-	calculate,
-	setCurrentOperand,
-	setCurrentOperation,
-	setValue,
-} from '../../store/slices/calculator';
+import { calculate, setCurrentOperand, setCurrentOperation, setValue } from '../../store';
 import { KeypadButton, KeypadContainer } from './styled';
 
 const Keypad = () => {
+	const currentCalculatorValue = useSelector((state) => state.calculator.value);
 	const currentOperand = useSelector((state) => state.calculator.currentOperand);
 	const currentOperation = useSelector((state) => state.calculator.currentOperation);
 	const dispatch = useDispatch();
@@ -16,7 +12,13 @@ const Keypad = () => {
 	const handleOperationClick = (operation) => {
 		if (currentOperand) {
 			if (currentOperation) {
-				dispatch(calculate());
+				dispatch(
+					calculate({
+						currentValue: currentCalculatorValue,
+						currentOperation,
+						currentOperand,
+					})
+				);
 			} else {
 				dispatch(setValue(+currentOperand));
 			}
@@ -28,7 +30,13 @@ const Keypad = () => {
 	const handleEqualsClick = () => {
 		if (!(currentOperation && currentOperand)) return;
 
-		dispatch(calculate());
+		dispatch(
+			calculate({
+				currentValue: currentCalculatorValue,
+				currentOperation,
+				currentOperand,
+			})
+		);
 		dispatch(setCurrentOperand(''));
 		dispatch(setCurrentOperation(null));
 	};

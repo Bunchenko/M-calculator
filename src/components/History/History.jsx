@@ -4,7 +4,7 @@ import { Dropdown, HistoryList, HistoryOption, HistoryPanel } from './styled';
 import ChevronDown from '../svg/ChevronDown';
 
 const History = () => {
-	const history = useSelector((state) => state.calculator.history);
+	const history = useSelector((state) => state.history);
 
 	const [isOpen, setIsOpen] = useState(false);
 	const dropdown = useRef();

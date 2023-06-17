@@ -58,7 +58,7 @@ class HistoryClass extends Component {
 }
 
 const mapStateToProps = (state) => ({
-	history: state.calculator.history,
+	history: state.history,
 });
 
 HistoryClass.propTypes = {
